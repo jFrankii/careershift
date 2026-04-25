@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerShift — AI Cover Letter for Career Changers</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f5f0e8;
+    --accent: #c8543a;
+    --accent2: #2d6a4f;
+    --muted: #7a7268;
+    --border: #d9d2c5;
+    --card: #fffdf8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 2rem 2rem 1.5rem;
+    border-bottom: 1.5px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    background: var(--card);
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.5px;
+  }
+
+  .logo span { color: var(--accent); font-style: italic; }
+
+  .tagline {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-left: 1.5px solid var(--border);
+    padding-left: 1rem;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 3.5rem 2rem 2rem;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.15;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 520px;
+  }
+
+  /* ── STEP BADGES ── */
+  .steps {
+    display: flex;
+    gap: 0.5rem;
+    margin: 2rem 0 0;
+    flex-wrap: wrap;
+  }
+
+  .step-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--muted);
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+  }
+
+  .step-badge .num {
+    width: 18px; height: 18px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ── FORM CARD ── */
+  .form-card {
+    max-width: 780px;
+    margin: 2rem auto;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .form-section {
+    padding: 1.8rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .form-section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .field-row.single { grid-template-columns: 1fr; }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  input, textarea, select {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.65rem 0.85rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: vertical;
+    width: 100%;
+    appearance: none;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(200,84,58,0.08);
+  }
+
+  textarea { min-height: 100px; line-height: 1.6; }
+
+  .hint {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.4;
+  }
+
+  /* ── TONE PICKER ── */
+  .tone-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .tone-option input { display: none; }
+
+  .tone-option label {
+    display: block;
+    cursor: pointer;
+    padding: 0.6rem 0.8rem;
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--muted);
+    transition: all 0.15s;
+    text-align: center;
+    background: var(--paper);
+    line-height: 1.4;
+  }
+
+  .tone-option label strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 0.82rem;
+  }
+
+  .tone-option input:checked + label {
+    border-color: var(--accent);
+    background: #fbf0ed;
+    color: var(--accent);
+  }
+
+  .tone-option input:checked + label strong { color: var(--accent); }
+
+  /* ── GENERATE BUTTON ── */
+  .generate-wrap {
+    padding: 1.8rem 2rem;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .generate-wrap p {
+    color: rgba(245,240,232,0.55);
+    font-size: 0.78rem;
+    font-weight: 300;
+    line-height: 1.5;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .btn-generate {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ink);
+    background: var(--paper);
+    border: none;
+    padding: 0.85rem 2rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-generate:hover { background: #fff; transform: translateY(-1px); }
+  .btn-generate:active { transform: translateY(0); }
+  .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* ── API KEY NOTICE ── */
+  .api-notice {
+    max-width: 780px;
+    margin: 0 auto 1rem;
+    background: #fff8e6;
+    border: 1px solid #e8d5a0;
+    border-radius: 3px;
+    padding: 0.9rem 1.2rem;
+    font-size: 0.8rem;
+    color: #7a6030;
+    line-height: 1.6;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+  }
+
+  .api-notice strong { color: #5a4520; }
+
+  .api-key-field {
+    max-width: 780px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .api-key-field input {
+    flex: 1;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── OUTPUT ── */
+  .output-wrap {
+    max-width: 780px;
+    margin: 0 auto 3rem;
+    display: none;
+  }
+
+  .output-wrap.visible { display: block; }
+
+  .output-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .output-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .btn-copy {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.9rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-copy:hover { border-color: var(--ink); color: var(--ink); }
+  .btn-copy.copied { border-color: var(--accent2); color: var(--accent2); }
+
+  .output-box {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem 2.2rem;
+    font-size: 0.92rem;
+    line-height: 1.85;
+    color: var(--ink);
+    font-weight: 300;
+    white-space: pre-wrap;
+    min-height: 200px;
+    position: relative;
+  }
+
+  .output-box.streaming::after {
+    content: '▋';
+    animation: blink 0.7s infinite;
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 3rem;
+    color: var(--muted);
+  }
+
+  .spinner {
+    width: 28px; height: 28px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-size: 0.82rem;
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 300;
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+
+  /* ── ERROR ── */
+  .error-msg {
+    background: #fef2f0;
+    border: 1px solid #f5c6be;
+    border-radius: 3px;
+    padding: 0.8rem 1rem;
+    font-size: 0.82rem;
+    color: #9b3a2a;
+    margin-top: 0.5rem;
+    display: none;
+  }
+  .error-msg.visible { display: block; }
+
+  @media(max-width: 600px) {
+    .field-row { grid-template-columns: 1fr; }
+    .hero { padding: 2rem 1.2rem 1rem; }
+    .form-section { padding: 1.2rem; }
+    .generate-wrap { padding: 1.2rem; }
+    .output-box { padding: 1.2rem 1rem; }
+    header { flex-direction: column; gap: 0.3rem; }
+    .tagline { border-left: none; padding-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Career<span>Shift</span></div>
+  <div class="tagline">AI Cover Letters for Career Changers</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>Your past experience<br>is your <em>greatest</em> asset.</h1>
+    <p>Switching careers doesn't mean starting from zero. CareerShift crafts cover letters that reframe your existing experience as exactly what your new industry needs.</p>
+    <div class="steps">
+      <div class="step-badge"><span class="num">1</span> Fill in your details</div>
+      <div class="step-badge"><span class="num">2</span> Choose your tone</div>
+      <div class="step-badge"><span class="num">3</span> Generate & copy</div>
+    </div>
+  </div>
+
+  <!-- API Key -->
+  <div class="api-notice">
+    <span>⚙️</span>
+    <span><strong>API Key required.</strong> This tool uses the Claude AI API. Get your free key at <a href="https://console.anthropic.com" target="_blank" style="color:inherit;font-weight:500">console.anthropic.com</a> → API Keys. Your key is never stored or sent anywhere except directly to Anthropic.</span>
+  </div>
+  <div class="api-key-field">
+    <input type="password" id="apiKey" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false">
+  </div>
+
+  <!-- Form -->
+  <div class="form-card">
+
+    <!-- Section 1: About You -->
+    <div class="form-section">
+      <div class="section-label">About you</div>
+      <div class="field-row">
+        <div class="field">
+          <label>Your name</label>
+          <input type="text" id="name" placeholder="e.g. Ana Kovač">
+        </div>
+        <div class="field">
+          <label>Current / previous field</label>
+          <input type="text" id="currentField" placeholder="e.g. Nursing, Teaching, Sales">
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <label>Years of experience in previous field</label>
+          <input type="text" id="yearsExp" placeholder="e.g. 7 years">
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <label>Your top 3 transferable skills</label>
+          <textarea id="skills" placeholder="e.g. Project management, communicating complex ideas clearly, working under pressure and tight deadlines"></textarea>
+          <span class="hint">Think about what you were praised for — these translate across industries.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Target Job -->
+    <div class="form-section">
+      <div class="section-label">Target role</div>
+      <div class="field-row">
+        <div class="field">
+          <label>Job title you're applying for</label>
+          <input type="text" id="targetJob" placeholder="e.g. UX Designer, Data Analyst">
+        </div>
+        <div class="field">
+          <label>Company name</label>
+          <input type="text" id="company" placeholder="e.g. Spotify, a local startup">
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <label>Paste key parts of the job description</label>
+          <textarea id="jobDesc" style="min-height:120px" placeholder="e.g. 'We're looking for someone with strong analytical skills, ability to work cross-functionally, and a passion for data storytelling...'"></textarea>
+          <span class="hint">Even a few sentences from the job ad makes a big difference.</span>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <label>Why are you switching to this field? <span style="font-weight:300;color:var(--muted)">(optional but powerful)</span></label>
+          <textarea id="whySwitching" placeholder="e.g. I've always been passionate about design and spent the last year taking courses in UX..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Tone -->
+    <div class="form-section">
+      <div class="section-label">Tone & style</div>
+      <div class="tone-grid">
+        <div class="tone-option">
+          <input type="radio" name="tone" id="t1" value="confident and professional" checked>
+          <label for="t1"><strong>Confident</strong>Professional & direct</label>
+        </div>
+        <div class="tone-option">
+          <input type="radio" name="tone" id="t2" value="warm and personable">
+          <label for="t2"><strong>Warm</strong>Friendly & human</label>
+        </div>
+        <div class="tone-option">
+          <input type="radio" name="tone" id="t3" value="bold and ambitious">
+          <label for="t3"><strong>Bold</strong>Ambitious & energetic</label>
+        </div>
+        <div class="tone-option">
+          <input type="radio" name="tone" id="t4" value="humble and eager to learn">
+          <label for="t4"><strong>Humble</strong>Eager & growth-focused</label>
+        </div>
+        <div class="tone-option">
+          <input type="radio" name="tone" id="t5" value="analytical and precise">
+          <label for="t5"><strong>Analytical</strong>Data & logic driven</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generate -->
+    <div class="generate-wrap">
+      <p>Your cover letter will be tailored to reframe your career change as a strength — not a liability.</p>
+      <button class="btn-generate" id="generateBtn" onclick="generate()">Generate cover letter →</button>
+    </div>
+  </div>
+
+  <div class="error-msg" id="errorMsg"></div>
+
+  <!-- Output -->
+  <div class="output-wrap" id="outputWrap">
+    <div class="output-header">
+      <div class="output-title">Your cover letter</div>
+      <button class="btn-copy" id="copyBtn" onclick="copyLetter()">Copy to clipboard</button>
+    </div>
+    <div class="output-box" id="outputBox"></div>
+  </div>
+</main>
+
+<footer>
+  CareerShift uses Claude AI · Your data is never stored · Built for career changers worldwide
+</footer>
+
+<script>
+async function generate() {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const name = document.getElementById('name').value.trim();
+  const currentField = document.getElementById('currentField').value.trim();
+  const yearsExp = document.getElementById('yearsExp').value.trim();
+  const skills = document.getElementById('skills').value.trim();
+  const targetJob = document.getElementById('targetJob').value.trim();
+  const company = document.getElementById('company').value.trim();
+  const jobDesc = document.getElementById('jobDesc').value.trim();
+  const whySwitching = document.getElementById('whySwitching').value.trim();
+  const tone = document.querySelector('input[name="tone"]:checked').value;
+
+  const errorEl = document.getElementById('errorMsg');
+  errorEl.classList.remove('visible');
+
+  if (!apiKey) { showError('Please enter your Anthropic API key above.'); return; }
+  if (!targetJob) { showError('Please enter the job title you\'re applying for.'); return; }
+  if (!currentField) { showError('Please enter your current or previous field.'); return; }
+  if (!skills) { showError('Please enter at least one transferable skill.'); return; }
+
+  const btn = document.getElementById('generateBtn');
+  btn.disabled = true;
+  btn.textContent = 'Generating...';
+
+  const outputWrap = document.getElementById('outputWrap');
+  const outputBox = document.getElementById('outputBox');
+  outputWrap.classList.add('visible');
+  outputBox.classList.add('streaming');
+  outputBox.innerHTML = `<div class="loading-state"><div class="spinner"></div><div class="loading-text">Crafting your letter...</div></div>`;
+
+  const prompt = `You are an expert career coach specialising in career transitions. Write a compelling, authentic cover letter for someone switching careers.
+
+Applicant details:
+- Name: ${name || 'the applicant'}
+- Coming from: ${currentField} (${yearsExp || 'several years'} experience)
+- Transferable skills: ${skills}
+- Applying for: ${targetJob}${company ? ` at ${company}` : ''}
+- Job description highlights: ${jobDesc || 'not provided'}
+- Reason for switching: ${whySwitching || 'looking for a new challenge and growth'}
+- Tone: ${tone}
+
+Instructions:
+- Open with a strong hook that immediately reframes their career change as an asset
+- Connect their previous experience directly to what the new role needs
+- Be specific — reference their actual skills and the job details
+- Show genuine enthusiasm for the new field without sounding desperate
+- Keep it to 3-4 tight paragraphs, no longer than 350 words
+- End with a confident, action-oriented closing
+- Do NOT use clichés like "I am writing to apply for..." or "I believe I would be a great fit"
+- Write naturally in ${tone} tone
+- Format as a proper letter with greeting and sign-off
+- Do not add any commentary before or after the letter, just output the letter itself`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        stream: true,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.error?.message || `API error ${response.status}`);
+    }
+
+    outputBox.textContent = '';
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let fullText = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value, { stream: true });
+      const lines = chunk.split('\n');
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const data = line.slice(6).trim();
+          if (data === '[DONE]') continue;
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+              fullText += parsed.delta.text;
+              outputBox.textContent = fullText;
+            }
+          } catch {}
+        }
+      }
+    }
+
+    outputBox.classList.remove('streaming');
+
+  } catch (err) {
+    outputBox.classList.remove('streaming');
+    outputBox.textContent = '';
+    outputWrap.classList.remove('visible');
+    showError('Error: ' + (err.message || 'Something went wrong. Check your API key and try again.'));
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Generate cover letter →';
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.classList.add('visible');
+}
+
+function copyLetter() {
+  const text = document.getElementById('outputBox').textContent;
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy to clipboard'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
