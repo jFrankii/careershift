@@ -25,6 +25,154 @@
     min-height: 100vh;
   }
 
+  /* ── LOCK SCREEN ── */
+  #lock-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--ink);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  #lock-screen.hidden { display: none; }
+
+  .lock-box {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 3rem 2.5rem;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .lock-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  .lock-logo span { color: var(--accent); font-style: italic; }
+
+  .lock-tagline {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .lock-box h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+  }
+
+  .lock-box p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 1.8rem;
+  }
+
+  .lock-box p a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .lock-input-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .lock-input-wrap input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    letter-spacing: 0.15em;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .lock-input-wrap input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .lock-input-wrap input.shake {
+    animation: shake 0.4s ease;
+    border-color: #c8543a;
+  }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+  }
+
+  .btn-unlock {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--paper);
+    background: var(--ink);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-unlock:hover { background: #2d2d4a; transform: translateY(-1px); }
+  .btn-unlock:active { transform: translateY(0); }
+
+  .lock-error {
+    font-size: 0.78rem;
+    color: var(--accent);
+    font-weight: 400;
+    margin-top: 0.5rem;
+    min-height: 1.2em;
+  }
+
+  .lock-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+
+  .lock-buy {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .lock-buy a {
+    color: var(--accent);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
   /* ── HEADER ── */
   header {
     padding: 1.5rem 2rem;
@@ -450,6 +598,21 @@
 </head>
 <body>
 
+<!-- LOCK SCREEN -->
+<div id="lock-screen">
+  <div class="lock-box">
+    <div class="lock-logo">Career<span>Shift</span></div>
+    <div class="lock-tagline">AI Toolkit for Career Changers</div>
+    <h2>Enter your access code</h2>
+    <p>Already have a code? Enter it below to unlock all 4 tools.<br>No code yet? <a href="https://gumroad.com" target="_blank" id="gumroad-link">Get access here →</a></p>
+    <div class="lock-input-wrap">
+      <input type="password" id="password-input" placeholder="Your access code" maxlength="30" onkeydown="if(event.key==='Enter') unlock()">
+    </div>
+    <button class="btn-unlock" onclick="unlock()">Unlock toolkit →</button>
+    <div class="lock-error" id="lock-error"></div>
+  </div>
+</div>
+
 <header>
   <div class="logo">Career<span>Shift</span></div>
   <div class="tagline">AI Toolkit for Career Changers</div>
@@ -752,6 +915,34 @@
 </footer>
 
 <script>
+// ── PASSWORD SYSTEM ──
+// Change this to whatever password you want to give buyers
+const ACCESS_CODES = ['CAREERSHIFT2026', 'SHIFT2026', 'CS-LAUNCH'];
+
+function unlock() {
+  const input = document.getElementById('password-input');
+  const errEl = document.getElementById('lock-error');
+  const code = input.value.trim().toUpperCase();
+
+  if (ACCESS_CODES.includes(code)) {
+    sessionStorage.setItem('cs_unlocked', 'true');
+    document.getElementById('lock-screen').classList.add('hidden');
+    errEl.textContent = '';
+  } else {
+    errEl.textContent = 'Incorrect code. Please try again.';
+    input.classList.add('shake');
+    input.value = '';
+    setTimeout(() => input.classList.remove('shake'), 400);
+  }
+}
+
+// Check if already unlocked this session
+window.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('cs_unlocked') === 'true') {
+    document.getElementById('lock-screen').classList.add('hidden');
+  }
+});
+
 function switchTab(tool) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
